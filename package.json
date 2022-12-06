@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KovAlex010422/food_practice/issues"
   },
-  "homepage": "https://github.com/KovAlex010422/food_practice#readme"
+  "homepage": "https://github.com/KovAlex010422/food_practice#readme",
+  "devDependencies": {
+    "json-server": "^0.17.1"
+  }
 }

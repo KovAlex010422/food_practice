@@ -201,9 +201,22 @@ window.addEventListener('DOMContentLoaded', () => {
             };
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
-        function postData(form){
+
+        const postData = async (url, data) => {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: data
+            });
+             return await res.json();
+            }
+        
+
+        function bindPostData(form){
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
 
@@ -215,27 +228,14 @@ window.addEventListener('DOMContentLoaded', () => {
                     `;
 
                 form.append(statusMessage);
-                //form.insertAdjacent('afterend', statusMessage);
-
-                /* request.open('POST', 'server.php');
-
-                request.setRequestHeader('Content-type', 'application/json'); */
                 const formData = new FormData(form);
-                const object = {};
 
-                formData.forEach(function(value,key) {
-                    object[key] = value;
-                });
+                const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-                fetch('server1.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json'
-                    },
-                    body: JSON.stringify(object)
-                })
-                .then(data => data.text())
+
+                postData('http://localhost:3000/requests', json)
                 .then(data => {
+                    console.log(data);
                     showThanksModal(message.success);
                     statusMessage.remove();
                 }).catch(()=> {
@@ -244,18 +244,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 }).finally(() => {
                     form.reset();
                 });
-
-
-                /* request.addEventListener('load', () => {
-                    if(request.status === 200){
-                        console.log(request.response);
-                        showThanksModal(message.success);
-                        form.reset();
-                        statusMessage.remove();
-                    } else {
-                        showThanksModal(message.failure);
-                    }
-                }); */
             })
         };
 

@@ -269,6 +269,7 @@ window.addEventListener('DOMContentLoaded', () => {
           nextSlide = document.querySelector('.offer__slider-next');
     let curSlide = document.querySelector('#current'),
         totalSlides = document.querySelector('#total');
+
     const getSliders = async (url) => {
         const res = await fetch(url);
 
@@ -291,7 +292,8 @@ window.addEventListener('DOMContentLoaded', () => {
             })
         );
     function changeSlider() {
-            curSlide.textContent < 10 ? `0${curSlide.textContent -= 1}` : curSlide.textContent -= 1;
+        curSlide.textContent = curSlide.textContent < 10 && curSlide.textContent > 0  ? `0${curSlide.textContent}` : curSlide.textContent = 100;
+        curSlide.textContent -= 1;
     }
     prevSlide.addEventListener('click', ()=> {
         changeSlider();

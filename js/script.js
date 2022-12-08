@@ -117,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimeOut = setTimeout(modalOpenFunc, 11000);
+    const modalTimeOut = setTimeout(modalOpenFunc, 111000);
 
     function showModalByScroll(){
         if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -163,34 +163,23 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    new MenuItem(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        9,
-        '.menu .container'
-    )
-    .render();
+    const getMenuItem = async (url) => {
+        const res = await fetch(url);
 
-    new MenuItem(
-        "img/tabs/elite.jpg",
-        "elite",
-        'Меню “Премиум”',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        20,
-        '.menu .container'
-        ).render();
+        if(!res.ok){
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
 
-    new MenuItem(
-        "img/tabs/post.jpg",
-        "post",
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        16,
-        '.menu .container'
-        ).render();
+        return await res.json();
+    };
 
+    getMenuItem('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuItem(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
+    
     // Forms -----------------------------------------------------------
 
     const   forms = document.querySelectorAll('form'),
@@ -213,8 +202,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 body: data
             });
              return await res.json();
-            }
-        
+            };        
 
         function bindPostData(form){
             form.addEventListener('submit', (e) => {
@@ -235,7 +223,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 postData('http://localhost:3000/requests', json)
                 .then(data => {
-                    console.log(data);
                     showThanksModal(message.success);
                     statusMessage.remove();
                 }).catch(()=> {
@@ -244,6 +231,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 }).finally(() => {
                     form.reset();
                 });
+
+                
             })
         };
 
@@ -273,6 +262,37 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
     fetch('http://localhost:3000/menu')
-            .then(data => data.json())
-            .then(res => console.log(res))
+            .then(data => data.json());
+
+    const sliders = document.querySelector('.offer__slider-wrapper');
+
+    const getSliders = async (url) => {
+        const res = await fetch(url);
+
+        if(!res.ok){
+            throw new Error(`No any response with sliders`);
+        }
+
+        return await res.json();
+    };
+
+    getSliders('http://localhost:3000/sliders')
+        .then(data => 
+            data.forEach(({img, alt}) => {
+                const slider = document.createElement('div');
+                slider.classList = 'offer__slide hide';
+                slider.innerHTML = `
+                        <img src='${img}' alt='${alt}'>
+                `;
+                sliders.append(slider);
+            })
+        );
+
+    const showSlider = (sliderIdx = 1) => {
+        const renderedSliders = document.querySelectorAll('.offer__slider');
+        
+        renderedSliders.forEach(el=> console.log(el));
+    };
+
+    showSlider()
 });

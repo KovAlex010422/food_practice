@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
 
-    const deadline = '2022-12-23';
+    const deadline = '2023-01-01';
 
 
     function getTimeRemaining (endtime){
@@ -117,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimeOut = setTimeout(modalOpenFunc, 111000);
+    const modalTimeOut = setTimeout(modalOpenFunc, 11111000);
 
     function showModalByScroll(){
         if(window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -264,8 +264,11 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
             .then(data => data.json());
 
-    const sliders = document.querySelector('.offer__slider-wrapper');
-
+    const sliders = document.querySelector('.offer__slider-wrapper')
+          prevSlide = document.querySelector('.offer__slider-prev'),
+          nextSlide = document.querySelector('.offer__slider-next');
+    let curSlide = document.querySelector('#current'),
+        totalSlides = document.querySelector('#total');
     const getSliders = async (url) => {
         const res = await fetch(url);
 
@@ -287,11 +290,23 @@ window.addEventListener('DOMContentLoaded', () => {
                 sliders.append(slider);
             })
         );
+    function changeSlider() {
+            curSlide.textContent < 10 ? `0${curSlide.textContent -= 1}` : curSlide.textContent -= 1;
+    }
+    prevSlide.addEventListener('click', ()=> {
+        changeSlider();
+    });
+
+    
+    
+    const getIdxSlider = () => {
+        
+    }
 
     const showSlider = (sliderIdx = 1) => {
-        const renderedSliders = document.querySelectorAll('.offer__slider');
-        
-        renderedSliders.forEach(el=> console.log(el));
+        const renderedSliders = document.querySelectorAll('.offer__slide');
+        console.log(renderedSliders.length);
+        //renderedSliders.forEach(el=> console.log(el));
     };
 
     showSlider()

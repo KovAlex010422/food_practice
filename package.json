@@ -18,5 +18,8 @@
   "homepage": "https://github.com/KovAlex010422/food_practice#readme",
   "devDependencies": {
     "json-server": "^0.17.1"
+  },
+  "dependencies": {
+    "axios": "^1.2.1"
   }
 }

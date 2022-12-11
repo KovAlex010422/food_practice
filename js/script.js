@@ -264,52 +264,68 @@ window.addEventListener('DOMContentLoaded', () => {
     fetch('http://localhost:3000/menu')
             .then(data => data.json());
 
-    const sliders = document.querySelector('.offer__slider-wrapper')
-          prevSlide = document.querySelector('.offer__slider-prev'),
-          nextSlide = document.querySelector('.offer__slider-next');
-    let curSlide = document.querySelector('#current'),
-        totalSlides = document.querySelector('#total');
+// Slider==============================================================
 
-    const getSliders = async (url) => {
-        const res = await fetch(url);
+    const sliders = document.querySelectorAll('.offer__slide'),
+          prevSlideBtn = document.querySelector('.offer__slider-prev'),
+          nextSlideBtn = document.querySelector('.offer__slider-next');
+    let curSlideCount = document.querySelector('#current'),
+        totalSlidesCount = document.querySelector('#total'),
+        sliderIndex = 1;
 
-        if(!res.ok){
-            throw new Error(`No any response with sliders`);
-        }
+        totalSlidesCount.textContent = sliders.length < 10 
+            ? `0${sliders.length}` 
+            : sliders.length;
 
-        return await res.json();
-    };
+        showSlider(sliderIndex);
+        function showSlider(n){
+            if(n > sliders.length){
+                sliderIndex = 1;
+            }
+            if(n < 1){
+                sliderIndex = sliders.length;
+            }
+            sliders.forEach(item => item.style.display = 'none');
+            sliders[sliderIndex - 1].style.display = 'block';
+            curSlideCount.textContent = sliderIndex < 10 
+                ? `0${sliderIndex}` 
+                : sliderIndex;
+        };
 
-    getSliders('http://localhost:3000/sliders')
-        .then(data => 
-            data.forEach(({img, alt}) => {
-                const slider = document.createElement('div');
-                slider.classList = 'offer__slide hide';
-                slider.innerHTML = `
-                        <img src='${img}' alt='${alt}'>
-                `;
-                sliders.append(slider);
-            })
-        );
-    function changeSlider() {
-        curSlide.textContent = curSlide.textContent < 10 && curSlide.textContent > 0  ? `0${curSlide.textContent}` : curSlide.textContent = 100;
-        curSlide.textContent -= 1;
-    }
-    prevSlide.addEventListener('click', ()=> {
-        changeSlider();
+        function plusSlider(n){
+            showSlider(sliderIndex+=n);
+        };
+
+        prevSlideBtn.addEventListener('click', ()=> plusSlider(-1));
+        nextSlideBtn.addEventListener('click', ()=> plusSlider(+1))
+/* 
+    curSlideCount.textContent = `01`; 
+    totalSlidesCount.textContent = `0${sliders.length}`
+    
+    nextSlideBtn.addEventListener('click', () => {
+        curSlideCount.textContent = `0${parseInt(curSlideCount.textContent) + 1}`;
+        if(curSlideCount.textContent == sliders.length + 1){
+            curSlideCount.textContent = `01`;
+        };
+        showHideSliders();
+    });
+    prevSlideBtn.addEventListener('click', () => {
+        curSlideCount.textContent = `0${parseInt(curSlideCount.textContent) - 1}`;
+        if(curSlideCount.textContent == 0){
+            curSlideCount.textContent = `0${sliders.length}`;
+        };
+        showHideSliders();  
     });
 
-    
-    
-    const getIdxSlider = () => {
-        
-    }
+    function showHideSliders(){
+        sliders.forEach((el, i) => {
+            el.classList.add('hide');
+            if(parseInt(curSlideCount.textContent) - 1 == i){
+                el.classList.remove('hide');
+            };
+        });
+    };  
 
-    const showSlider = (sliderIdx = 1) => {
-        const renderedSliders = document.querySelectorAll('.offer__slide');
-        console.log(renderedSliders.length);
-        //renderedSliders.forEach(el=> console.log(el));
-    };
-
-    showSlider()
+    showHideSliders();
+ */
 });

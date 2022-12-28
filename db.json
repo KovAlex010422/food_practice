@@ -26,7 +26,7 @@
     {
       "img": "img/slider/pepper.jpg",
       "alt": "pepper"
-    }, 
+    },
     {
       "img": "img/slider/food-12.jpg",
       "alt": "food"
@@ -34,11 +34,12 @@
     {
       "img": "img/slider/olive-oil.jpg",
       "alt": "oil"
-    }, {
+    },
+    {
       "img": "img/slider/paprika.jpg",
-      "alt":"paprika"
+      "alt": "paprika"
     }
-],
+  ],
   "requests": [
     {
       "id": 1
@@ -68,6 +69,11 @@
       "name": "1231",
       "phone": "xcv",
       "id": 7
+    },
+    {
+      "name": "123123",
+      "phone": "s",
+      "id": 8
     }
   ]
 }

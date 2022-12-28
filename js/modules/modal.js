@@ -45,4 +45,4 @@ function modal(){
 
 };
 
-module.exports = modal;
+export default modal;

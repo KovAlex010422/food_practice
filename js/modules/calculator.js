@@ -105,4 +105,4 @@ function calculator(){
     initLocalSetting('.calculating__choose_big div', 'calculating__choose-item_active');
 };
 
-module.exports = calculator;
+export default calculator;

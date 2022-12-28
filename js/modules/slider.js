@@ -35,36 +35,49 @@ function slider(){
     slidersLine.style.display = 'flex';
     slidersLine.style.transition = '1s all';
     slidersWrap.style.overflow = 'hidden';
-    
+
     sliders.forEach(slide => {
-        slide.style.width = slidersWrap;
+        slide.style.width = width;
     });
 
     setZeroBeforeNum();
 
     nextSlideBtn.addEventListener('click', () => {
-        if(offset == -(sliders.length - 1) * +(width.slice(0, width.length -2))) {
+
+        if(offset == +width.slice(0, width.length - 2) * (sliders.length - 1)) {
             offset = 0;
         } else {
-            offset-= +(width.slice(0, width.length -2));
+            offset+= +width.slice(0, width.length - 2);
         }
-        slidersLine.style.transform = `translateX(${offset}px)`;
+        slidersLine.style.transform = `translateX(-${offset}px)`;
 
-        sliderIndex == sliders.length ? sliderIndex = 1 : sliderIndex++;
+        if(sliderIndex == sliders.length) { 
+            sliderIndex = 1;
+        } else {
+            sliderIndex++
+        };
+
         curSlideCount.textContent = sliderIndex < 10 ? `0${sliderIndex}` : sliderIndex;
 
         dotOpacity();
+
     });
 
     prevSlideBtn.addEventListener('click', () => {
-        if(offset == 0){
-            offset = -(sliders.length - 1 ) * +(width.slice(0, width.length -2))
-        } else {
-            offset += +(width.slice(0, width.length -2));
-        }
-        slidersLine.style.transform = `translateX(${offset}px)`;
 
-        sliderIndex == 1 ? sliderIndex = sliders.length : sliderIndex--;
+        if(offset == 0){
+            offset = +width.slice(0, width.length - 2) * (sliders.length - 1) 
+        } else {
+            offset -= +width.slice(0, width.length -2);
+        }
+        slidersLine.style.transform = `translateX(-${offset}px)`;
+
+        if (sliderIndex == 1) {
+            sliderIndex = sliders.length;
+        } else {
+            sliderIndex--;
+        }
+        
         curSlideCount.textContent = sliderIndex < 10 ? `0${sliderIndex}` : sliderIndex;
 
         dotOpacity();
@@ -81,21 +94,21 @@ function slider(){
     };
 
     function dotOpacity(){
-        dotsArr.forEach(dot => dot.style.opacity = '0.5');
+        dotsArr.forEach(dot => dot.style.opacity = '.5');
         dotsArr[sliderIndex - 1].style.opacity = 1;
     }
 
     dotsArr.forEach(dot => {
         dot.addEventListener('click', (e) => {
             const slideTo = e.target.getAttribute('data-slide-to');
+            console.log(slideTo);
             sliderIndex = slideTo;
             offset = +width.slice(0, width.length - 2) * (slideTo - 1);
             slidersLine.style.transform = `translateX(-${offset}px)`;
             dotOpacity();
             setZeroBeforeNum();
-
         });
     });
 };
 
-module.exports = slider;
+export default slider;

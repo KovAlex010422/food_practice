@@ -1,7 +1,4 @@
-function timer(){
-    
-    const deadline = '2023-01-01';
-
+function timer(id, deadline){
 
     function getTimeRemaining (endtime){
         const   differenceTime = Date.parse(endtime) - Date.parse(new Date()),
@@ -41,7 +38,7 @@ function timer(){
 
         }
     }
-    setClock('.timer', deadline);
+    setClock(id, deadline);
 
 };
 

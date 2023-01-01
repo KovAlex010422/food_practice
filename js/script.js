@@ -5,16 +5,21 @@ import modal from './modules/modal';
 import slider from './modules/slider';
 import tabs from './modules/tabs';
 import timer from './modules/timer';
+import { modalOpenFunc } from './modules/modal';
 
 window.addEventListener('DOMContentLoaded', () => {
 
+    const modalTimeOut = setTimeout(() => modalOpenFunc('.modal', modalTimeOut), 11111000);
+
     calculator();
     cards();
-    form();
-    modal();
-    slider();
-    tabs();
-    timer();
+    form('form', modalTimeOut);
+    modal('[data-modalOpen]', '.modal', modalTimeOut);
+    slider({
+        
+    });
+    tabs('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
+    timer('.timer', '2023-01-09');
 /*      First variant
 
          totalSlidesCount.textContent = sliders.length < 10 

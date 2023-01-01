@@ -1,7 +1,10 @@
-function form(){
+import { modalOpenFunc, modalCloseFunc } from "./modal";
+import { postData } from "../services/services";
+
+function form(formSelektor, modalTimeOut){
     
-    const   forms = document.querySelectorAll('form'),
-            message = {
+    const forms = document.querySelectorAll(formSelektor),
+          message = {
                 'loading': '/img/loading.gif',
                 'success': 'Дані відправлено',
                 'failure': 'Щось пішло не так'
@@ -10,18 +13,7 @@ function form(){
     forms.forEach(item => {
         bindPostData(item);
     });
-
-        const postData = async (url, data) => {
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: data
-            });
-             return await res.json();
-            };        
-
+        
         function bindPostData(form){
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -58,7 +50,7 @@ function form(){
             const prevModalDialog = document.querySelector('.modal__dialog');
 
             prevModalDialog.classList.add('hide');
-            modalOpenFunc();
+            modalOpenFunc('.modal', modalTimeOut);
 
             const thanksModal = document.createElement('div');
             thanksModal.classList.add('modal__dialog');
@@ -75,7 +67,7 @@ function form(){
                 thanksModal.remove();
                 prevModalDialog.classList.add('show');
                 prevModalDialog.classList.remove('hide');
-                modalCloseFunc();
+                modalCloseFunc('.modal');
             }, 4000);
         }
 
